@@ -9,7 +9,8 @@
 typedef struct {
     char *title;
     int *data;
-    size_t size;
+    size_t logical_size;
+    size_t physical_size;
 } Colonne;
 
 typedef struct {
