@@ -6,22 +6,37 @@
 #define PROJET_LANGAGE_C_LIST_H
 
 
-typedef struct {
-    char *title;
-    int *data;
-    size_t logical_size;
-    size_t physical_size;
-} Colonne;
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
+// Structure pour représenter une colonne
 typedef struct {
-    Colonne *colonne;
-    size_t num_colonne;
-    size_t max_size;
-} CDataframe;
+    char* name;
+    int* data;
+    int size;
+} Column;
 
-void init_colonne(Colonne *colonne, const char *title,size_t size);
-void free_colonne(Colonne *colonne);
-CDataframe* init_cdataframe(size_t num_colonne,size_t max_size);
-void free_cdataframe(CDataframe *dataframe);
+// Structure pour représenter le CDataFrame
+typedef struct {
+    Column* columns;
+    int num_columns;
+    int num_rows;
+} CDataFrame;
+
+// Fonction pour créer un nouveau CDataFrame
+CDataFrame* create_CDataFrame(int num_columns);
+
+// Fonction pour libérer un CDataFrame
+void free_CDataFrame(CDataFrame* df);
+
+// Fonction pour ajouter une colonne
+void add_column(CDataFrame* df, char* name, int* data, int size);
+
+// Fonction pour ajouter une ligne
+void add_row(CDataFrame* df, int* row_data);
+
+// Fonction pour afficher un CDataFrame
+void print_CDataFrame(CDataFrame* df);
 
 #endif //PROJET_LANGAGE_C_LIST_H

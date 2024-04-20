@@ -4,32 +4,44 @@
 
 #include "list.h"
 
-void init_colonne(Colonne *colonne,const char *title, size_t size){
-    colonne->title = strdup(title);
-    colonne->data = malloc(size * sizeof(int));
-    colonne->size = size;
-
+CDataFrame* create_CDataFrame(int num_columns) {
+    CDataFrame* df = (CDataFrame*)malloc(sizeof(CDataFrame));
+    df->columns = (Column*)malloc(num_columns * sizeof(Column));
+    df->num_columns = num_columns;
+    df->num_rows = 0;
+    return df;
 }
 
-void free_colonne(Colonne * colonne) {
-    free(colonne ->title);
-    free(colonne->data);
-}
-
-CDataframe* init_cdataframe(size_t num_colonne, size_t max_size){
-    CDataframe *dataframe = malloc(sizeof(CDataframe));
-    dataframe->colonne = malloc(num_colonne * sizeof(Colonne));
-    dataframe->num_colonne = num_colonne;
-    dataframe->max_size = max_size;
-
-    for (size_t i=0; i< num_colonne;i++){
-        char title[20];
-        sprintf(title,"Colonne %zu", i+1);
-        init_colonne(&(dataframe->colonne[i]), title, max_size);
+void free_CDataFrame(CDataFrame* df) {
+    for (int i = 0; i < df->num_columns; i++) {
+        free(df->columns[i].name);
+        free(df->columns[i].data);
     }
+    free(df->columns);
+    free(df);
+}
 
-    return dataframe;
+void add_column(CDataFrame* df, char* name, int* data, int size) {
+    int index = df->num_columns;
+    df->columns[index].name = strdup(name);
+    df->columns[index].data = (int*)malloc(size * sizeof(int));
+    df->columns[index].size = size;
+    for (int i = 0; i < size; i++) {
+        df->columns[index].data[i] = data[i];
+    }
+    df->num_columns++;
+}
 
-
+void print_CDataFrame(CDataFrame* df) {
+    for (int i = 0; i < df->num_columns; i++) {
+        printf("%s\t", df->columns[i].name);
+    }
+    printf("\n");
+    for (int i = 0; i < df->num_rows; i++) {
+        for (int j = 0; j < df->num_columns; j++) {
+            printf("%d\t", df->columns[j].data[i]);
+        }
+        printf("\n");
+    }
 }
 
