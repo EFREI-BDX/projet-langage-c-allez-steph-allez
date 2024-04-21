@@ -57,12 +57,6 @@ void print_CDataFrame(CDataFrame* df) {
     }
 }
 
-void insert_value_to_column(CDataframe* df, int column_index, int value){
-        if (column_index < 0 || column_index >= df ->num_colonne)){
-            printf("Index de la colonne invalide\n");
-            return 0;
-        }
-
 
 
 
