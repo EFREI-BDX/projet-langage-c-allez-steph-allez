@@ -37,11 +37,25 @@ void print_CDataFrame(CDataFrame* df) {
         printf("%s\t", df->columns[i].name);
     }
     printf("\n");
-    for (int i = 0; i < df->num_rows; i++) {
+
+    int max_rows = 0;
+    for (int i = 0; i < df->num_columns; i++) {
+        if (df->columns[i].size > max_rows) {
+            max_rows = df->columns[i].size;
+        }
+    }
+
+    for (int i = 0; i < max_rows; i++) {
         for (int j = 0; j < df->num_columns; j++) {
-            printf("%d\t", df->columns[j].data[i]);
+            if (i < df->columns[j].size) {
+                printf("%d\t", df->columns[j].data[i]);
+            } else {
+                printf("\t");
+            }
         }
         printf("\n");
     }
 }
+
+
 
