@@ -19,7 +19,7 @@ void free_CDataFrame(CDataFrame* df) {
     }
     free(df->columns);
     free(df);
-}
+
 
 void add_column(CDataFrame* df, char* name, int* data, int size) {
     int index = df->num_columns;
@@ -56,6 +56,12 @@ void print_CDataFrame(CDataFrame* df) {
         printf("\n");
     }
 }
+
+void insert_value_to_column(CDataframe* df, int column_index, int value){
+        if (column_index < 0 || column_index >= df ->num_colonne)){
+            printf("Index de la colonne invalide\n");
+            return 0;
+        }
 
 
 
