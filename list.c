@@ -4,10 +4,10 @@
 
 #include "list.h"
 
-CDataFrame* create_CDataFrame(int num_columns) {
+CDataFrame* create_CDataFrame() {
     CDataFrame* df = (CDataFrame*)malloc(sizeof(CDataFrame));
-    df->columns = (Column*)malloc(num_columns * sizeof(Column));
-    df->num_columns = num_columns;
+    df->columns = (Column*)malloc( sizeof(Column));
+    df->num_columns = 0;
     df->num_rows = 0;
     return df;
 }
@@ -22,6 +22,14 @@ void free_CDataFrame(CDataFrame* df) {
 }
 
 void add_column(CDataFrame* df, char* name, int* data, int size) {
+    if (df->num_columns == df->capacity){
+        if (df->num_columns == 0){
+            df->capacity += 1;
+        }
+        df->capacity *= 2;
+        df->columns = (Column*)realloc(df->columns, df->capacity * sizeof(Column));
+    }
+
     int index = df->num_columns;
     df->columns[index].name = strdup(name);
     df->columns[index].data = (int*)malloc(size * sizeof(int));
@@ -30,6 +38,9 @@ void add_column(CDataFrame* df, char* name, int* data, int size) {
         df->columns[index].data[i] = data[i];
     }
     df->num_columns++;
+    if (size > df->num_rows){
+        df->num_rows = size;
+    }
 }
 
 void print_CDataFrame(CDataFrame* df) {
@@ -37,14 +48,7 @@ void print_CDataFrame(CDataFrame* df) {
         printf("%s\t", df->columns[i].name);
     }
     printf("\n");
-
-    int max_rows = 0;
-    for (int i = 0; i < df->num_columns; i++) {
-        if (df->columns[i].size > max_rows) {
-            max_rows = df->columns[i].size;
-        }
-    }
-
+    int max_rows = df->num_rows;
     for (int i = 0; i < max_rows; i++) {
         for (int j = 0; j < df->num_columns; j++) {
             if (i < df->columns[j].size) {

@@ -21,11 +21,12 @@ typedef struct {
 typedef struct {
     Column* columns;
     int num_columns;
+    int capacity;
     int num_rows;
 } CDataFrame;
 
 // Fonction pour créer un nouveau CDataFrame
-CDataFrame* create_CDataFrame(int num_columns);
+CDataFrame* create_CDataFrame();
 
 // Fonction pour libérer un CDataFrame
 void free_CDataFrame(CDataFrame* df);
