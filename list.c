@@ -19,7 +19,7 @@ void free_CDataFrame(CDataFrame* df) {
     }
     free(df->columns);
     free(df);
-}
+
 
 void add_column(CDataFrame* df, char* name, int* data, int size) {
     if (df->num_columns == df->capacity){
@@ -60,6 +60,7 @@ void print_CDataFrame(CDataFrame* df) {
         printf("\n");
     }
 }
+
 
 
 
