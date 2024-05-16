@@ -16,7 +16,6 @@ int main() {
     add_column(df, "Column 2", col2_data, 3);
     add_column(df, "Column 3", col3_data, 3);
     print_CDataFrame(df);
-
     free_CDataFrame(df);
 
     return 0;

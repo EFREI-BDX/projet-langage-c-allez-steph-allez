@@ -8,6 +8,7 @@ CDataFrame* create_CDataFrame() {
     CDataFrame* df = (CDataFrame*)malloc(sizeof(CDataFrame));
     df->columns = (Column*)malloc( sizeof(Column));
     df->num_columns = 0;
+    df->capacity = 0;
     df->num_rows = 0;
     return df;
 }
@@ -19,7 +20,7 @@ void free_CDataFrame(CDataFrame* df) {
     }
     free(df->columns);
     free(df);
-
+}
 
 void add_column(CDataFrame* df, char* name, int* data, int size) {
     if (df->num_columns == df->capacity){
