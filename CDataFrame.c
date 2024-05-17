@@ -14,7 +14,8 @@ CDataFrame* create_CDataFrame() {
 
 void free_CDataFrame(CDataFrame* df) {
     CDataFrame* temp;
-    temp = df
+    temp = df;
+    if (df->current_column)
     while (temp->next_column != NULL){
         free(temp->current_column);
         temp->current_column = temp->next_column;

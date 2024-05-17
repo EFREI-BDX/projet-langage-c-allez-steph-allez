@@ -15,8 +15,8 @@
 // Structure pour représenter le CDataFrame
 typedef struct {
     Column* current_column;
-    int size;
     struct CDataFrame* next_column;
+    int size;
 } CDataFrame;
 
 

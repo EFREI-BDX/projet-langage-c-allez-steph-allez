@@ -24,5 +24,7 @@ int main() {
         add_value(column, i);
     }
     print_column(column);
+    delete_value_at_index(column, 5);
+    print_column(column);
     return 0;
 }

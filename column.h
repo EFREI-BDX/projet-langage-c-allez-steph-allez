@@ -25,7 +25,7 @@ Column* create_column(char* title);
 
 void add_value(Column* column, int value);
 void delete_column(Column** column);
-
+void delete_value_at_index(Column* column, int index);
 void print_column(Column* column);
 
 
