@@ -2,26 +2,25 @@
 // Created by glede on 25/03/2024.
 //
 
-#include "list.h"
+#include "CDataFrame.h"
+
 
 CDataFrame* create_CDataFrame() {
     CDataFrame* df = (CDataFrame*)malloc(sizeof(CDataFrame));
-    df->columns = (Column*)malloc( sizeof(Column));
-    df->num_columns = 0;
-    df->capacity = 0;
-    df->num_rows = 0;
+    df->current_column = NULL;
+    df->size = 0;
     return df;
 }
 
 void free_CDataFrame(CDataFrame* df) {
-    for (int i = 0; i < df->num_columns; i++) {
-        free(df->columns[i].name);
-        free(df->columns[i].data);
+    CDataFrame* temp;
+    temp = df
+    while (temp->next_column != NULL){
+        free(temp->current_column);
+        temp->current_column = temp->next_column;
     }
-    free(df->columns);
-    free(df);
 }
-
+/**
 void add_column(CDataFrame* df, char* name, int* data, int size) {
     if (df->num_columns == df->capacity){
         if (df->num_columns == 0){
@@ -44,9 +43,13 @@ void add_column(CDataFrame* df, char* name, int* data, int size) {
     }
 }
 
+void add_value(CDataFrame* df, int value, int column){
+
+}
+
 void print_CDataFrame(CDataFrame* df) {
     for (int i = 0; i < df->num_columns; i++) {
-        printf("%s\t", df->columns[i].name);
+        printf("C%d\t", i+1);
     }
     printf("\n");
     int max_rows = df->num_rows;
@@ -60,8 +63,13 @@ void print_CDataFrame(CDataFrame* df) {
         }
         printf("\n");
     }
+    printf("References :\n");
+    for (int i = 0; i < df->num_columns; i++) {
+        printf("C%d : ", i+1);
+        printf("%s\t", df->columns[i].name);
+    }
 }
 
 
 
-
+**/
