@@ -3,71 +3,35 @@
 
 int main() {
     CDataFrame* df = create_CDataFrame();
-/**
-    CDataFrame* df = create_CDataFrame();
-
-    Column* col1 = create_column("Column 1");
-    add_value(col1, 10);
-    add_value(col1, 20);
-    add_value(col1, 30);
-
-    Column* col2 = create_column("Column 2");
-    add_value(col2, 100);
-    add_value(col2, 200);
-
-    Column* col3 = create_column("Column 3");
-    add_value(col3, 1000);
-    add_value(col3, 2000);
-
-    add_column(df, col1);
-    add_column(df, col2);
-    add_column(df, col3);
-
-    remove_column(df, "Column 2");
-    remove_row(df, 0);
-    int row[3] = {25, 50, 30};
-    add_row(df, row);
-    rename_column(df, "Column 3", "Last column");
-    replace_value_at(df, 0,0, 69);
-    print_CDataFrame(df);
-    print_column(df, "Last column");
-    print_row(df, 0);
-    int booleens;
-    booleens = contains_value(df, 2000);
-    printf("%d\n", booleens);
-    print_column_names(df);
-    int a, b, c, d, e;
-    a = count_rows(df);
-    b = count_columns(df);
-    c = count_cells_with_value(df, 30);
-    d = count_cells_greater_than(df, 55);
-    e = count_cells_lower_than(df, 55);
-    printf("%d\t%d\t%d\t%d\t%d\t", a, b, c, d, e);
-    free_CDataFrame(df);
-**/
     int choice;
-    printf("\nMenu:\n");
-    printf("1. Ajouter une colonne\n");
-    printf("2. Supprimer une colonne\n");
-    printf("3. Ajouter une valeur\n");
-    printf("4. Supprimer une ligne\n");
-    printf("5. Afficher le nombre de lignes\n");
-    printf("6. Afficher le nombre de colonnes\n");
-    printf("7. Afficher les noms de colonnes\n");
-    printf("8. Afficher le CDataFrame\n");
-    printf("9. Quitter\n");
     while (1) {
-        rewind(stdin);
+        printf("\nMenu:\n");
+        printf("1. Ajouter une colonne\n");
+        printf("2. Supprimer une colonne\n");
+        printf("3. Ajouter une ligne\n");
+        printf("4. Supprimer une ligne\n");
+        printf("5. Afficher le nombre de lignes\n");
+        printf("6. Afficher le nombre de colonnes\n");
+        printf("7. Afficher les noms de colonnes\n");
+        printf("8. Afficher le CDataFrame\n");
+        printf("9. Afficher une ligne\n");
+        printf("10. Ajouter une valeur à une colonne\n");
+        printf("11. Quitter\n");
         printf("Entrez votre choix : ");
-        scanf("%d", &choice);
+        if (scanf("%d", &choice) != 1) {
+            while (getchar() != '\n');
+            continue;
+        }
 
         switch (choice) {
             case 1: {
                 // Ajouter une colonne
                 char title[100];
-                rewind(stdin);
                 printf("Entrez le titre de la colonne : ");
-                scanf("%s", title);
+                if (scanf("%99s", title) != 1) {
+                    while (getchar() != '\n');
+                    continue;
+                }
                 Column* column = create_column(title);
                 add_column(df, column);
                 printf("Colonne ajoutée avec succès.\n");
@@ -76,34 +40,43 @@ int main() {
             case 2: {
                 // Supprimer une colonne
                 char title[100];
-                rewind(stdin);
                 printf("Entrez le titre de la colonne à supprimer : ");
-                scanf("%s", title);
+                if (scanf("%99s", title) != 1) {
+                    while (getchar() != '\n');
+                    continue;
+                }
                 remove_column(df, title);
                 printf("Colonne supprimée avec succès.\n");
                 break;
             }
             case 3: {
                 // Ajouter une ligne
-                printf("Entrez l'indice de la colonne : \n");
-                int index;
-                scanf("%d", &index);
-                int size;
-                printf("Entrez le nombre de valeurs que vous voulez :\n");
-                rewind(stdin);
-                scanf("%d", &size);
-                int number;
-                for (int i; i < size; i++){
-                    printf("Saisir la valeur %d : \n", i+1);
-                    rewind(stdin);
-                    scanf("%d", &number);
-                    add_value_at(df, index, number);
+                int num_columns = count_columns(df);
+                int* values = (int*)malloc(num_columns * sizeof(int));
+                for (int i = 0; i < num_columns; i++) {
+                    printf("Entrez la valeur pour la colonne %d : ", i + 1);
+                    if (scanf("%d", &values[i]) != 1) {
+                        while (getchar() != '\n');
+                        free(values);
+                        continue;
+                    }
                 }
+                while (getchar() != '\n'); // Vider le tampon après la saisie des valeurs
+                add_row(df, values);
+                free(values);
+                printf("Ligne ajoutée avec succès.\n");
                 break;
             }
             case 4: {
                 // Supprimer une ligne
-                // Code pour saisir l'index de la ligne et appeler remove_row
+                int row_index;
+                printf("Entrez l'index de la ligne à supprimer : ");
+                if (scanf("%d", &row_index) != 1) {
+                    while (getchar() != '\n');
+                    continue;
+                }
+                remove_row(df, row_index);
+                printf("Ligne supprimée avec succès.\n");
                 break;
             }
             case 5: {
@@ -127,17 +100,45 @@ int main() {
                 break;
             }
             case 9: {
+                // Afficher une ligne
+                int row_index;
+                printf("Entrez l'index de la ligne à afficher : ");
+                if (scanf("%d", &row_index) != 1) {
+                    while (getchar() != '\n');
+                    continue;
+                }
+                print_row(df, row_index);
+                break;
+            }
+            case 10: {
+                // Ajouter une valeur à une colonne
+                int col_index, value;
+                printf("Entrez l'index de la colonne : ");
+                if (scanf("%d", &col_index) != 1) {
+                    while (getchar() != '\n');
+                    continue;
+                }
+                printf("Entrez la valeur à ajouter : ");
+                if (scanf("%d", &value) != 1) {
+                    while (getchar() != '\n');
+                    continue;
+                }
+                add_value_at(df, col_index, value);
+                printf("Valeur ajoutée avec succès.\n");
+                break;
+            }
+            case 11: {
                 // Quitter
                 printf("Au revoir !\n");
                 free_CDataFrame(df);
                 return 0;
             }
             default: {
-                printf("Choix invalide. Veuillez entrer un nombre entre 1 et 9.\n");
+                printf("Choix invalide. Veuillez entrer un nombre entre 1 et 11.\n");
+                while (getchar() != '\n');  // Vider le tampon en cas de saisie invalide
                 break;
             }
         }
     }
-
     return 0;
 }
