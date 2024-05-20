@@ -30,6 +30,7 @@ void replace_value_at(CDataFrame* df, int column_index, int row_index, int new_v
 // Affichage
 void print_CDataFrame(CDataFrame* df);
 void print_column(CDataFrame* df, char* name);
+void print_row(CDataFrame* df, int row_index);
 void print_column_names(CDataFrame* df);
 
 

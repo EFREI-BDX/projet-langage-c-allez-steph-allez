@@ -180,6 +180,21 @@ void print_column(CDataFrame* df, char* name) {
     printf("Column with title '%s' not found.\n", name);
 }
 
+void print_row(CDataFrame* df, int row_index) {
+    Maillon* current = *df;
+
+    while (current != NULL) {
+        Column* column = current->current_column;
+        if (row_index < column->logical_size) {
+            printf("%-15d", column->values[row_index]);  // Imprimer la valeur de la colonne à l'index de ligne
+        } else {
+            printf("%-15s", "");  // Laisser un espace vide si la colonne ne comprend pas de valeur sur la ligne donnée
+        }
+        current = current->next_maillon;
+    }
+    printf("\n");
+}
+
 void print_column_names(CDataFrame* df) {
     Maillon* current = *df;
     int column_index = 1;

@@ -29,6 +29,7 @@ int main() {
     replace_value_at(df, 0,0, 69);
     print_CDataFrame(df);
     print_column(df, "Last column");
+    print_row(df, 0);
     int booleens;
     booleens = contains_value(df, 2000);
     printf("%d\n", booleens);
