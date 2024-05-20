@@ -24,5 +24,13 @@ Liste des fonctions disponibles :
 6. Afficher le nombre de colonnes
 7. Afficher les noms de colonnes
 8. Afficher le CDataFrame
+9. Afficher une ligne
+10. Ajouter une valeur à une colonne
+11. Renommer une colonne
+12. Verifier si une valeur existe dans le CDataFrame
+13. Remplacer une valeur dans une colonne
+14. Compter les cellules avec une valeur spécifique
+15. Compter les cellules avec des valeurs inférieures à une valeur
+16. Compter les cellules avec des valeurs supérieures à une valeur
 
 Lien Github : https://github.com/EFREI-BDX/projet-langage-c-allez-steph-allez
