@@ -15,23 +15,20 @@ void add_column(CDataFrame* df, Column* column) {
     Maillon* new_maillon = (Maillon*)malloc(sizeof(Maillon));
     new_maillon->current_column = column;
     new_maillon->next_maillon = NULL;
-
     if (*df == NULL) {
         *df = new_maillon;
     } else {
-        Maillon* temp = *df;
-        while (temp->next_maillon != NULL) {
-            temp = temp->next_maillon;
+        Maillon* current = *df;
+        while (current->next_maillon != NULL) {
+            current = current->next_maillon;
         }
-        temp->next_maillon = new_maillon;
+        current->next_maillon = new_maillon;
     }
 }
 void remove_column(CDataFrame* df, char* title) {
     if (*df == NULL) return;
-
     Maillon* current = *df;
     Maillon* prev = NULL;
-
     while (current != NULL) {
         if (strcmp(current->current_column->title, title) == 0) {
             if (prev == NULL) {
@@ -41,7 +38,6 @@ void remove_column(CDataFrame* df, char* title) {
                 // The column to remove is in the middle or end
                 prev->next_maillon = current->next_maillon;
             }
-
             free(current->current_column->title);
             free(current->current_column->values);
             free(current->current_column);
@@ -56,7 +52,6 @@ void remove_column(CDataFrame* df, char* title) {
 void add_row(CDataFrame* df, int* values) {
     Maillon* current = *df;
     int index = 0;
-
     while (current != NULL) {
         add_value(current->current_column, values[index]);
         current = current->next_maillon;
@@ -66,7 +61,6 @@ void add_row(CDataFrame* df, int* values) {
 
 void remove_row(CDataFrame* df, int row_index) {
     Maillon* current = *df;
-
     while (current != NULL) {
         delete_value_at_index(current->current_column, row_index);
         current = current->next_maillon;
@@ -77,7 +71,6 @@ void print_CDataFrame(CDataFrame* df) {
     if (*df == NULL){
         printf("Le CDataFrame est vide.\n");
     }
-
     Maillon* current = *df;
     int max_rows = 0;
     while (current != NULL) {
@@ -86,7 +79,6 @@ void print_CDataFrame(CDataFrame* df) {
         }
         current = current->next_maillon;
     }
-
     current = *df;
     while (current != NULL) {
         printf("%-15s", current->current_column->title);  // Adjust width as needed
@@ -135,10 +127,36 @@ void rename_column(CDataFrame* df, char* name, char* new_name) {
     printf("Column with title '%s' not found.\n", name);
 }
 
+int contains_value(CDataFrame* df, int value) {
+    Maillon* current = *df;
+    while (current != NULL) {
+        Column* column = current->current_column;
+        for (int i = 0; i < column->logical_size; i++) {
+            if (column->values[i] == value) {
+                return 0;
+            }
+        }
+        current = current->next_maillon;
+    }
+    return -1;
+}
+
+void replace_value(CDataFrame* df, int old_value, int new_value) {
+    Maillon* current = *df;
+    while (current != NULL) {
+        Column* column = current->current_column;
+        for (int i = 0; i < column->logical_size; i++) {
+            if (column->values[i] == old_value) {
+                column->values[i] = new_value;
+            }
+        }
+        current = current->next_maillon;
+    }
+}
+
 void free_CDataFrame(CDataFrame* df) {
     Maillon* current = *df;
     Maillon* next;
-
     while (current != NULL) {
         next = current->next_maillon;
         free(current->current_column->title);
@@ -147,7 +165,6 @@ void free_CDataFrame(CDataFrame* df) {
         free(current);
         current = next;
     }
-
     *df = NULL;
 }
 

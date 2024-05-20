@@ -26,8 +26,12 @@ int main() {
     int row[3] = {25, 50, 30};
     add_row(df, row);
     rename_column(df, "Column 3", "Last column");
+    replace_value(df, 2000, 69);
     print_CDataFrame(df);
     print_column(df, "Last column");
+    int booleens;
+    booleens = contains_value(df, 2000);
+    printf("%d", booleens);
     free_CDataFrame(df);
 
     return 0;
