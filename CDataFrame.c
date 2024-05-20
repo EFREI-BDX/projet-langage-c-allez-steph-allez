@@ -66,6 +66,22 @@ void remove_column(CDataFrame* df, char* title) {
     }
 }
 
+void add_value_at(CDataFrame* df, int column_index, int value) {
+    Maillon* current = *df;
+    int col_counter = 0;
+
+    while (current != NULL) {
+        if (col_counter == column_index) {
+            add_value(current->current_column, value);  // Appel à la fonction add_value de la colonne actuelle
+            return;
+        }
+        col_counter++;
+        current = current->next_maillon;
+    }
+
+    printf("Colonne index hors limites.\n");
+}
+
 void add_row(CDataFrame* df, int* values) {
     Maillon* current = *df;
     int index = 0;

@@ -3,6 +3,8 @@
 
 int main() {
     CDataFrame* df = create_CDataFrame();
+/**
+    CDataFrame* df = create_CDataFrame();
 
     Column* col1 = create_column("Column 1");
     add_value(col1, 10);
@@ -42,6 +44,100 @@ int main() {
     e = count_cells_lower_than(df, 55);
     printf("%d\t%d\t%d\t%d\t%d\t", a, b, c, d, e);
     free_CDataFrame(df);
+**/
+    int choice;
+    printf("\nMenu:\n");
+    printf("1. Ajouter une colonne\n");
+    printf("2. Supprimer une colonne\n");
+    printf("3. Ajouter une valeur\n");
+    printf("4. Supprimer une ligne\n");
+    printf("5. Afficher le nombre de lignes\n");
+    printf("6. Afficher le nombre de colonnes\n");
+    printf("7. Afficher les noms de colonnes\n");
+    printf("8. Afficher le CDataFrame\n");
+    printf("9. Quitter\n");
+    while (1) {
+        rewind(stdin);
+        printf("Entrez votre choix : ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: {
+                // Ajouter une colonne
+                char title[100];
+                rewind(stdin);
+                printf("Entrez le titre de la colonne : ");
+                scanf("%s", title);
+                Column* column = create_column(title);
+                add_column(df, column);
+                printf("Colonne ajoutée avec succès.\n");
+                break;
+            }
+            case 2: {
+                // Supprimer une colonne
+                char title[100];
+                rewind(stdin);
+                printf("Entrez le titre de la colonne à supprimer : ");
+                scanf("%s", title);
+                remove_column(df, title);
+                printf("Colonne supprimée avec succès.\n");
+                break;
+            }
+            case 3: {
+                // Ajouter une ligne
+                printf("Entrez l'indice de la colonne : \n");
+                int index;
+                scanf("%d", &index);
+                int size;
+                printf("Entrez le nombre de valeurs que vous voulez :\n");
+                rewind(stdin);
+                scanf("%d", &size);
+                int number;
+                for (int i; i < size; i++){
+                    printf("Saisir la valeur %d : \n", i+1);
+                    rewind(stdin);
+                    scanf("%d", &number);
+                    add_value_at(df, index, number);
+                }
+                break;
+            }
+            case 4: {
+                // Supprimer une ligne
+                // Code pour saisir l'index de la ligne et appeler remove_row
+                break;
+            }
+            case 5: {
+                // Afficher le nombre de lignes
+                printf("Nombre de lignes : %d\n", count_rows(df));
+                break;
+            }
+            case 6: {
+                // Afficher le nombre de colonnes
+                printf("Nombre de colonnes : %d\n", count_columns(df));
+                break;
+            }
+            case 7: {
+                // Afficher les noms de colonnes
+                print_column_names(df);
+                break;
+            }
+            case 8: {
+                // Afficher le CDataFrame
+                print_CDataFrame(df);
+                break;
+            }
+            case 9: {
+                // Quitter
+                printf("Au revoir !\n");
+                free_CDataFrame(df);
+                return 0;
+            }
+            default: {
+                printf("Choix invalide. Veuillez entrer un nombre entre 1 et 9.\n");
+                break;
+            }
+        }
+    }
 
     return 0;
 }

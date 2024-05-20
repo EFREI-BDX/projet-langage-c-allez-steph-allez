@@ -21,6 +21,7 @@ void free_CDataFrame(CDataFrame* df);
 //Opérations usuelles
 void add_column(CDataFrame* df, Column* column);
 void remove_column(CDataFrame* df, char* title);
+void add_value_at(CDataFrame* df, int column_index, int value);
 void add_row(CDataFrame* df, int* values);
 void remove_row(CDataFrame* df, int row_index);
 void rename_column(CDataFrame* df, char* name, char* new_name);
