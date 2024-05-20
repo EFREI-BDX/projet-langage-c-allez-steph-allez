@@ -15,4 +15,14 @@ Insérer une valeur dans une colonne avec réallocation de mémoire si nécessai
 Libérer l'espace alloué par une colonne.
 Afficher le contenu d'une colonne avec les numéros de ligne et les valeurs.
 
+Liste des fonctions disponibles :
+1. Ajouter une colonne
+2. Supprimer une colonne
+3. Ajouter une valeur
+4. Supprimer une ligne
+5. Afficher le nombre de lignes
+6. Afficher le nombre de colonnes
+7. Afficher les noms de colonnes
+8. Afficher le CDataFrame
+
 Lien Github : https://github.com/EFREI-BDX/projet-langage-c-allez-steph-allez
