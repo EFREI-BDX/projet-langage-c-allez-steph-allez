@@ -25,8 +25,9 @@ int main() {
     remove_row(df, 0);
     int row[3] = {25, 50, 30};
     add_row(df, row);
+    rename_column(df, "Column 3", "Last column");
     print_CDataFrame(df);
-    print_column(df, "Column 3");
+    print_column(df, "Last column");
     free_CDataFrame(df);
 
     return 0;

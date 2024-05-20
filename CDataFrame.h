@@ -29,6 +29,7 @@ void remove_row(CDataFrame* df, int row_index);
 void free_CDataFrame(CDataFrame* df);
 void print_CDataFrame(CDataFrame* df);
 void print_column(CDataFrame* df, char* name);
+void rename_column(CDataFrame* df, char* name, char* new_name);
 /**
 
 // Fonction pour ajouter une ligne

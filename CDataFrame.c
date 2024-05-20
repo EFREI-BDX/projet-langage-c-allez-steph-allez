@@ -121,6 +121,20 @@ void print_column(CDataFrame* df, char* name) {
     printf("Column with title '%s' not found.\n", name);
 }
 
+void rename_column(CDataFrame* df, char* name, char* new_name) {
+    Maillon* current = *df;
+
+    while (current != NULL) {
+        if (strcmp(current->current_column->title, name) == 0) {
+            free(current->current_column->title);
+            current->current_column->title = strdup(new_name);
+            return;
+        }
+        current = current->next_maillon;
+    }
+    printf("Column with title '%s' not found.\n", name);
+}
+
 void free_CDataFrame(CDataFrame* df) {
     Maillon* current = *df;
     Maillon* next;
