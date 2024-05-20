@@ -11,6 +11,22 @@ CDataFrame* create_CDataFrame() {
     return df;
 }
 
+void free_CDataFrame(CDataFrame* df) {
+    Maillon* current = *df;
+    Maillon* next;
+    while (current != NULL) {
+        next = current->next_maillon;
+        free(current->current_column->title);
+        free(current->current_column->values);
+        free(current->current_column);
+        free(current);
+        current = next;
+    }
+    *df = NULL;
+}
+
+// Opérations usuelles
+
 void add_column(CDataFrame* df, Column* column) {
     Maillon* new_maillon = (Maillon*)malloc(sizeof(Maillon));
     new_maillon->current_column = column;
@@ -25,6 +41,7 @@ void add_column(CDataFrame* df, Column* column) {
         current->next_maillon = new_maillon;
     }
 }
+
 void remove_column(CDataFrame* df, char* title) {
     if (*df == NULL) return;
     Maillon* current = *df;
@@ -67,9 +84,59 @@ void remove_row(CDataFrame* df, int row_index) {
     }
 }
 
+void rename_column(CDataFrame* df, char* name, char* new_name) {
+    Maillon* current = *df;
+
+    while (current != NULL) {
+        if (strcmp(current->current_column->title, name) == 0) {
+            free(current->current_column->title);
+            current->current_column->title = strdup(new_name);
+            return;
+        }
+        current = current->next_maillon;
+    }
+    printf("Column with title '%s' not found.\n", name);
+}
+
+int contains_value(CDataFrame* df, int value) {
+    Maillon* current = *df;
+    while (current != NULL) {
+        Column* column = current->current_column;
+        for (int i = 0; i < column->logical_size; i++) {
+            if (column->values[i] == value) {
+                return 0;
+            }
+        }
+        current = current->next_maillon;
+    }
+    return -1;
+}
+
+void replace_value_at(CDataFrame* df, int column_index, int row_index, int new_value) {
+    Maillon* current = *df;
+    int col_counter = 0;
+    while (current != NULL) {
+        if (col_counter == column_index) {
+            Column* column = current->current_column;
+            if (row_index >= 0 && row_index < column->logical_size) {
+                column->values[row_index] = new_value;
+                return;
+            } else {
+                printf("Row index out of bounds for column '%s'.\n", column->title);
+                return;
+            }
+        }
+        col_counter++;
+        current = current->next_maillon;
+    }
+    printf("Column index out of bounds.\n");
+}
+
+// Affichage
+
 void print_CDataFrame(CDataFrame* df) {
     if (*df == NULL){
-        printf("Le CDataFrame est vide.\n");
+        printf("CDataFrame is empty.\n");
     }
     Maillon* current = *df;
     int max_rows = 0;
@@ -113,58 +180,81 @@ void print_column(CDataFrame* df, char* name) {
     printf("Column with title '%s' not found.\n", name);
 }
 
-void rename_column(CDataFrame* df, char* name, char* new_name) {
+void print_column_names(CDataFrame* df) {
     Maillon* current = *df;
-
+    int column_index = 1;
     while (current != NULL) {
-        if (strcmp(current->current_column->title, name) == 0) {
-            free(current->current_column->title);
-            current->current_column->title = strdup(new_name);
-            return;
+        printf("%d-%s\n", column_index, current->current_column->title);
+        column_index++;
+        current = current->next_maillon;
+    }
+}
+
+// Analyses et statistiques :
+
+int count_rows(CDataFrame* df) {
+    Maillon* current = *df;
+    int max_rows = 0;
+    while (current != NULL) {
+        if (current->current_column->logical_size > max_rows) {
+            max_rows = current->current_column->logical_size;
         }
         current = current->next_maillon;
     }
-    printf("Column with title '%s' not found.\n", name);
+    return max_rows;
 }
 
-int contains_value(CDataFrame* df, int value) {
+int count_columns(CDataFrame* df) {
     Maillon* current = *df;
+    int num_columns = 0;
+    while (current != NULL) {
+        num_columns++;
+        current = current->next_maillon;
+    }
+    return num_columns;
+}
+
+int count_cells_with_value(CDataFrame* df, int value) {
+    Maillon* current = *df;
+    int count = 0;
     while (current != NULL) {
         Column* column = current->current_column;
         for (int i = 0; i < column->logical_size; i++) {
             if (column->values[i] == value) {
-                return 0;
+                count++;
             }
         }
         current = current->next_maillon;
     }
-    return -1;
+    return count;
 }
 
-void replace_value(CDataFrame* df, int old_value, int new_value) {
+int count_cells_lower_than(CDataFrame* df, int value) {
     Maillon* current = *df;
+    int count = 0;
     while (current != NULL) {
         Column* column = current->current_column;
         for (int i = 0; i < column->logical_size; i++) {
-            if (column->values[i] == old_value) {
-                column->values[i] = new_value;
+            if (column->values[i] < value) {
+                count++;
             }
         }
         current = current->next_maillon;
     }
+    return count;
 }
 
-void free_CDataFrame(CDataFrame* df) {
+int count_cells_greater_than(CDataFrame* df, int value) {
     Maillon* current = *df;
-    Maillon* next;
+    int count = 0;
     while (current != NULL) {
-        next = current->next_maillon;
-        free(current->current_column->title);
-        free(current->current_column->values);
-        free(current->current_column);
-        free(current);
-        current = next;
+        Column* column = current->current_column;
+        for (int i = 0; i < column->logical_size; i++) {
+            if (column->values[i] > value) {
+                count++;
+            }
+        }
+        current = current->next_maillon;
     }
-    *df = NULL;
+    return count;
 }
-

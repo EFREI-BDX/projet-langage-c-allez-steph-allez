@@ -26,12 +26,20 @@ int main() {
     int row[3] = {25, 50, 30};
     add_row(df, row);
     rename_column(df, "Column 3", "Last column");
-    replace_value(df, 2000, 69);
+    replace_value_at(df, 0,0, 69);
     print_CDataFrame(df);
     print_column(df, "Last column");
     int booleens;
     booleens = contains_value(df, 2000);
-    printf("%d", booleens);
+    printf("%d\n", booleens);
+    print_column_names(df);
+    int a, b, c, d, e;
+    a = count_rows(df);
+    b = count_columns(df);
+    c = count_cells_with_value(df, 30);
+    d = count_cells_greater_than(df, 55);
+    e = count_cells_lower_than(df, 55);
+    printf("%d\t%d\t%d\t%d\t%d\t", a, b, c, d, e);
     free_CDataFrame(df);
 
     return 0;
