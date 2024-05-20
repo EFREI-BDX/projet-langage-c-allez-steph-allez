@@ -128,6 +128,19 @@ int contains_value(CDataFrame* df, int value) {
     return -1;
 }
 
+Column* get_column_by_index(CDataFrame* df, int col_index) {
+    Maillon* temp = *df;
+    int current_index = 0;
+    while (temp != NULL) {
+        if (current_index == col_index) {
+            return temp->current_column;
+        }
+        current_index++;
+        temp = temp->next_maillon;
+    }
+    return NULL;  // Return NULL if the index is out of bounds
+}
+
 void replace_value_at(CDataFrame* df, int column_index, int row_index, int new_value) {
     Maillon* current = *df;
     int col_counter = 0;

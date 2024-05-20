@@ -27,6 +27,7 @@ void remove_row(CDataFrame* df, int row_index);
 void rename_column(CDataFrame* df, char* name, char* new_name);
 int contains_value(CDataFrame* df, int value);
 void replace_value_at(CDataFrame* df, int column_index, int row_index, int new_value);
+Column* get_column_by_index(CDataFrame* df, int col_index);
 
 // Affichage
 void print_CDataFrame(CDataFrame* df);
