@@ -2,29 +2,32 @@
 #include "CDataFrame.h"
 
 int main() {
-    // Exemple d'utilisation
-    //CDataFrame* df = create_CDataFrame(3);
+    CDataFrame* df = create_CDataFrame();
 
-    int col1_data[3] = {1011, 98, 1056};
-    int col2_data[4] = {100, 101, 102, 103};
-    int col3_data[5] = {104, 105, 106,107, 108};
-    int col4_data[4] = {109, 110, 111, 112};
-/**
-    add_column(df, "Column 1", col3_data, 5);
-    add_column(df, "Column 2", col2_data, 4);
-    add_column(df, "Column 3", col1_data, 3);
-    for(int i = 0; i < 10; i++){
-        add_column(df, "Column test", col4_data, 4);
-    }
+    Column* col1 = create_column("Column 1");
+    add_value(col1, 10);
+    add_value(col1, 20);
+    add_value(col1, 30);
+
+    Column* col2 = create_column("Column 2");
+    add_value(col2, 100);
+    add_value(col2, 200);
+
+    Column* col3 = create_column("Column 3");
+    add_value(col3, 1000);
+    add_value(col3, 2000);
+
+    add_column(df, col1);
+    add_column(df, col2);
+    add_column(df, col3);
+
+    remove_column(df, "Column 2");
+    remove_row(df, 0);
+    int row[3] = {25, 50, 30};
+    add_row(df, row);
     print_CDataFrame(df);
+    print_column(df, "Column 3");
     free_CDataFrame(df);
-**/;
-    Column* column = create_column("Colonne 1");
-    for (int i = 0; i<10; i++){
-        add_value(column, i);
-    }
-    print_column(column);
-    delete_value_at_index(column, 5);
-    print_column(column);
+
     return 0;
 }

@@ -33,7 +33,7 @@ void delete_value_at_index(Column* column, int index){
     }
 }
 
-void print_column(Column* column){
+void print_column_values(Column* column){
     printf("%s\n", column->title);
     for (int i = 0; i < column->logical_size; i++){
         printf("%d\n", column->values[i]);
