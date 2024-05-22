@@ -233,7 +233,7 @@ int main() {
                 return 0;
             }
             default: {
-                printf("Choix invalide. Veuillez entrer un nombre entre 1 et 11.\n");
+                printf("Choix invalide. Veuillez entrer un nombre entre 1 et 17.\n");
                 while (getchar() != '\n');  // Vider le tampon en cas de saisie invalide
                 break;
             }
